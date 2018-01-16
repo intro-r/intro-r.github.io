@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Introduction to Statistics in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="faq.html">FAQ</a>
+</li>
+<li>
+  <a href="schedule.html">Schedule</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#what-are-the-required-textbooks-or-reading-materials">What are the Required Textbooks or Reading Materials?</a></li>
+<li><a href="#what-kind-of-computing-is-required">What kind of Computing is Required?</a></li>
+<li><a href="#what-is-the-grading-and-attendance-criteriate">What is the Grading and Attendance Criteriate</a></li>
+<li><a href="#classroom-environment-expectations">Classroom Environment Expectations</a></li>
+</ul>
+</div>
+
+<div id="what-are-the-required-textbooks-or-reading-materials" class="section level2">
+<h2>What are the Required Textbooks or Reading Materials?</h2>
+<p>The majority of material for this course will be distributed as electronic handouts.</p>
+<ul>
+<li>Course Manual
+<ul>
+<li>Biomedical Informatics and Data Science Skills (BIDSS) Manual:</li>
+</ul></li>
+<li>Additional readings or resources will be distributed as needed.</li>
+</ul>
+</div>
+<div id="what-kind-of-computing-is-required" class="section level2">
+<h2>What kind of Computing is Required?</h2>
+<ul>
+<li>Students will be required to access a computer that can connect to the Internet (a laptop that can be brought to lectures and connect to the Brown WiFi network is ideal).</li>
+</ul>
+</div>
+<div id="what-is-the-grading-and-attendance-criteriate" class="section level2">
+<h2>What is the Grading and Attendance Criteriate</h2>
+<p>The graded elements of the course and their contribution to the final grade are:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Percentage of Grade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Assignments</td>
+<td>50%</td>
+</tr>
+<tr class="even">
+<td>Final Project</td>
+<td>50%</td>
+</tr>
+</tbody>
+</table>
+<p>The course will be considered “passed” for a final grade of 85% or higher.</p>
+<div id="specific-criteria-details" class="section level3">
+<h3>Specific criteria details:</h3>
+<ul>
+<li>Attendance is mandatory and is subject to be taken at a random moment during each lecture; Unexcused absences will result in up to a 10% deduction in overall course grade.</li>
+<li>Assignments will be available at the end of each lecture. Completed assignments must be submitted according to provided instructions. Late submissions will not be accepted without prior permission.</li>
+<li>A final project will be due at the end of the course that is designed to bring together applicable concepts to help solve a practical biomedical informatics problem. For PhD students, it is expected that this project will be directly related to their ongoing research.</li>
+</ul>
+</div>
+</div>
+<div id="classroom-environment-expectations" class="section level2">
+<h2>Classroom Environment Expectations</h2>
+<p>All lectures will be done in traditional format along with hands-on exercises. Students are expected to contribute to discussions and actively participate in exercises during class (see grading criteria/attendance policy above).</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

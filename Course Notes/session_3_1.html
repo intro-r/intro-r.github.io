@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Intro to R Programming for Biostatistics</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Intro to R Programming for Biostatistics">
+  <meta name="author" content="Adam J Sullivan">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/interactive/css/aceeditor.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="./assets/css/style.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+      <slide class="nobackground">
+    <article class="flexbox vcenter">
+      <span>
+        <img width='300px' src="assets/img/shield_image_large.png">
+      </span>
+    </article>
+  </slide>
+    <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="assets/img/shield_image.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Intro to R Programming for Biostatistics</h1>
+    <h2>Day 3 - Graphics in R</h2>
+    <p>Adam J Sullivan<br/></p>
+  </hgroup>
+  <article></article>  
+  <footer class = 'license'>
+    <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/'>
+    <img width = '80px' src = 'http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png'>
+    </a>
+  </footer>
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="segue" id="slide-1" style="background:grey;">
+  <hgroup>
+    <h1><code>ggplot2</code></h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ggplot2</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We will begin our journey into statistical graphics with the package <code>ggplot2</code>. </li>
+<li>This is another package by Hadley Wickham and is part of the tidyverse. </li>
+<li>This means we can use <code>piping</code> or  <code>chaining</code> to build our graphics. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>What can&#39;t <code>ggplot2</code> do?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>A good place to start might be with what  <code>ggplot2</code> cannot do. From here we will introduce what it can do. 
+
+<ul>
+<li>3d graphs.</li>
+<li>Interactive graphs, use <code>ggvis</code></li>
+<li>DAGs, see <code>igraph</code></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ggplot2</code> components</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>As we start with <code>ggplot2</code> it is important to understand the structure of this. </li>
+<li>The base graphics built into R require the use of many different functions and each of them seem to have their own method for how to use them.<br></li>
+<li><code>ggplot2</code> will be more fluid and the more you learn about it the more amazing of graphics you can create. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ggplot2</code> components</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We will get started with the components of every <code>ggplot2</code> object:
+
+<ol>
+<li><strong>data</strong></li>
+<li><strong>aesthetic mappings</strong> between variables in the data and visual properties.</li>
+<li>At least one layer which describes how to render the data. </li>
+<li>Many of these are with the <strong>geom()</strong> function. </li>
+</ol></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>HERS Study</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>This is a longitudinal study of HIV in women. </li>
+<li>We have variables from the 8th visit following baseline.</li>
+<li>Baseline corresponds to study enrollment, which is visit 1.</li>
+<li>Visits occur every 6 months.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>HERS Study</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(haven)
+data &lt;- read_dta(&quot;hers.dta&quot;)
+data$race &lt;- as.factor(data$race)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>HERS Study</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## # A tibble: 371 x 19
+##         id  basecd4 basevl   cd4cnt symptom    vl haart haart_1  cd4ct_1
+##      &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+##  1 0200775 485.1000    130 243.8100       2   580     0       0 312.4800
+##  2 0401574 434.8750     50 449.3120       0    50     0       0 398.7530
+##  3 0202540 285.4800  95050 308.0000       2    50     0       1 243.6000
+##  4 0202335 624.2200   3390 520.2000       2   170     1       1 392.7000
+##  5 0202642 211.4200  50390 225.0000       0    50     0       0 131.6000
+##  6 0402166 304.0450   1720 352.5785       0   730     1       1 475.3782
+##  7 0401041 266.7696   2070 304.9728       1  3800     0       1 347.7274
+##  8 0201516 524.5200   2040 425.6000       0    50     0       0 389.1600
+##  9 0102072 213.1800  10570 332.8000       0    50     0       0 256.0000
+## 10 0102505 418.0000    160 378.0000       1    50     0       0 319.7700
+## # ... with 361 more rows, and 10 more variables: vl_1 &lt;dbl&gt;, prog_1 &lt;dbl&gt;,
+## #   symp_1 &lt;dbl&gt;, awareyr &lt;dbl&gt;, race &lt;dbl&gt;, site &lt;chr&gt;, iduever &lt;dbl&gt;,
+## #   idu6enrl &lt;dbl&gt;, blart &lt;dbl&gt;, yrsaware &lt;dbl&gt;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ggplot2</code> Basics</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For example, we will create a simple scatter plot of cd4 count by viral load:</p>
+
+<pre><code class="r">library(dplyr)
+library(ggplot2)
+
+
+ggplot(data, aes(x=cd4cnt, y= vl)) +
+      geom_point()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ggplot2</code> Basics</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>What the code first does is takes a random 0.5% sample of all of the flights data. </li>
+<li>Given that the original data has 336,776 flights, it can be hard to visualize this much data with any clarity so we will observe a sample for this. </li>
+<li>We then see that the aesthetic mapping is cd4cnt by departure viral load. </li>
+<li>Finally we have a layer of points. This then leads to the following graph: </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ggplot2</code> Basics</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/simp_examp-1.png" alt="plot of chunk simp_examp"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ggplot2</code> Basics</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>As we proceed through this section we will begin the graph things in the following pattern:</p>
+
+<ol>
+<li>data</li>
+<li>aesthetic mappings</li>
+<li>geometric objects</li>
+<li>statistical transformations</li>
+<li>scales</li>
+<li>coordinate systems</li>
+<li>position adjustments</li>
+<li>faceting</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-13" style="background:grey;">
+  <hgroup>
+    <h1>Aesthetic Attributes</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Aesthetic Attributes</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We have focused on the data up until this point and now we will look at the aesthetic attributes.</li>
+<li>These consist of:
+
+<ul>
+<li>Color</li>
+<li>size</li>
+<li>shape</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Color</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>To start we will focus on the color. We will look at 
+
+<ol>
+<li>Color by groups. </li>
+<li>Color of points. </li>
+</ol></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Color by Groups</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>An important way to distinguish data can be to change the color of the groups. </li>
+<li><code>ggplot2</code>` has many default scales that convert your groups to color levels. </li>
+<li>These can be overridden but we will stick to the basics for now. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Color by Groups</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We consider the same plot that we used before and now we will add color by the race :</li>
+</ul>
+
+<pre><code class="r">library(dplyr)
+library(ggplot2)
+
+
+
+ggplot(data, aes(x=cd4cnt, y= vl, color=race)) +
+      geom_point()
+</code></pre>
+
+<ul>
+<li>The code shows that in the aesthetic portion (<code>aes()</code>) and we have added that <code>race</code> is associated with color. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Color by Groups</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Color of points</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Not only can we add color to the aesthetic portion but we can add it into the particular layers. </p>
+
+<pre><code class="r">library(dplyr)
+library(ggplot2)
+
+
+
+ggplot(data, aes(x=cd4cnt, y= vl)) +
+      geom_point(color=blue)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Color of points</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Size</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Now that we can color the points and color by groups we can also add the attributes of different sizes. </p>
+
+<pre><code class="r">library(dplyr)
+library(ggplot2)
+
+
+ggplot(data, aes(x=cd4cnt, y= vl, size=symptom)) +
+      geom_point()
+</code></pre>
+
+<ul>
+<li>Note that whenever you see an attribute inside the <code>aes()</code> function it applies that attribute to a particular variable. </li>
+<li>In this case, the size of the points will be increased depending on the number of symptoms.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Size</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Shape</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>One other important attribute to distinguish between groups can be to have a unique shape for each group. </li>
+<li>This time we add <code>shape=race</code> into the <code>aes()</code> function and have a unique shape for each specific race. </li>
+</ul>
+
+<pre><code class="r">library(dplyr)
+library(ggplot2)
+
+
+
+ggplot(data, aes(x=cd4cnt, y= vl, shape = race)) +
+      geom_point()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Shape</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## Error: A continuous variable can not be mapped to shape
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-25" style="background:grey;">
+  <hgroup>
+    <h1>Facetting</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Facetting</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Facetting is an excellent way to look at categorical data. </li>
+<li>This is where we split up the graphs and create a graph for each category.</li>
+<li>We will learn about two basic functions:
+
+<ul>
+<li><code>facet_wrap</code></li>
+<li><code>facet_grid</code></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>facet_wrap</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>We first will consider a <code>facet_wrap</code>:</p>
+
+<pre><code class="r">ggplot(data, aes(x=cd4cnt, y= vl)) +
+    geom_point() +
+    facet_wrap(~race)
+</code></pre></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>facet_wrap</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Notice that we are still working with the cd4cnt versus viral load. </li>
+<li>We start out with our original scatter plot. </li>
+<li>Then we add yet another <code>layer</code>. </li>
+<li>This layer is the <code>facet_wrap()</code> where we wrap it based on race. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>facet_wrap</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>facet_grid</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We then will note a similar effect when we use <code>facet_grid()</code>:</p>
+
+<pre><code class="r">ggplot(data, aes(x=cd4cnt, y= vl)) +
+      geom_point() +
+      facet_grid(~race)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>facet_grid</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>This is where the language of graphs really helps. </li>
+<li>We first take the data and group it based on cd4cnt and viral load. </li>
+<li>We state to place these as points on a graph. </li>
+<li>Finally we use the  <code>facet_grid()</code> to take that plot and split it by the race. </li>
+<li>Each time you add a layer you can accomplish a little more towards your goal.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>facet_grid</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>What about Other plots?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>So far we have been focusing on scatter plots. As we continue to move through this section we will note that there are many other <code>geom</code> functions that can be used:</p>
+
+<ul>
+<li><code>geom_smooth</code> fits a smoothing line in data</li>
+<li><code>geom_boxplot</code> box and whisker plot of data</li>
+<li><code>geom_histogram</code> and <code>geom_freqpoly</code> distribution graphs</li>
+<li><code>geom_bar</code> distribution of categorical data</li>
+<li><code>geom_path</code> and <code>geom_line</code> lines between data points</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-34" style="background:grey;">
+  <hgroup>
+    <h1>Smoothing</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>It can be hard to view trends with just points alone. </li>
+<li>Many times we wish to add a smoothing line in order to see what the trends look like. </li>
+<li>This can be especially helpful when trying to understand regressions.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We will take out scatter plot and apply a smoothing line to this:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(x=cd4cnt, y= vl)) + 
+        geom_point() +
+        geom_smooth()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Again, the smoothing line comes after our points which means it is another layer added onto our graph:</li>
+</ul>
+
+<p><img src="figure/unnamed-chunk-18-1.png" alt="plot of chunk unnamed-chunk-18"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Note that the <code>geom_smooth()</code> function adds confidence bands on the smooth as well. </li>
+<li>We can remove these by adding <code>se=FALSE</code> inside the <code>geom_smooth()</code> function: </li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(x=cd4cnt, y= vl)) + 
+        geom_point() +
+        geom_smooth(se=FALSE)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-20-1.png" alt="plot of chunk unnamed-chunk-20"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>On Your Own: Rstudio Practice</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Consider what happens when you switch the layers around. 
+
+<ol>
+<li>Graph just the data step:
+<code>
+ggplot(data, aes(x=cd4cnt, y= vl))
+</code></li>
+<li>Then add just the smooth
+<code>
+ggplot(data, aes(x=cd4cnt, y= vl)) + 
+geom_smooth()
+</code></li>
+<li>Finally add the points in:
+<code>
+ggplot(data, aes(x=cd4cnt, y= vl)) + 
+geom_smooth() + 
+geom_point()
+</code></li>
+</ol></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Varying the Smooth</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We have so far just seen how to add the smooth without being  able to do anything but add or subtract the confidence bands. </li>
+<li>We now will change the smoothness of our smooth that we added. </li>
+<li>To do so we add <code>span=__</code> inside the <code>geom_smooth()</code> layer:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(x=cd4cnt, y= vl)) + 
+        geom_point() +
+        geom_smooth(span = 0.1)
+ggplot(data, aes(x=cd4cnt, y= vl)) + 
+        geom_point() +
+        geom_smooth(span = 1)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Varying the Smooth</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-22-1.png" alt="plot of chunk unnamed-chunk-22"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Varying the Smooth</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Note that with <code>span = 0.1</code> we have a more rough smoothing than we had previously. </li>
+</ul>
+
+<p><img src="figure/unnamed-chunk-23-1.png" alt="plot of chunk unnamed-chunk-23"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Different Types of Smooths</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>There are different types of smooths that we can do. We will consider:
+
+<ul>
+<li><code>loess</code></li>
+<li><code>gam</code></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Loess Smooths</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Loess smoothing is a process by which many statistical software do smoothing. </li>
+<li>In <code>ggplot2</code> this should be done when you have less than 1000 points, otherwise it can be time consuming. </li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(x=cd4cnt, y= vl)) + 
+        geom_point() +
+        geom_smooth(method=&quot;loess&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Loess Smooths</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>As you can see with the code we just add <code>method=&quot;loess&quot;</code> into the <code>geom_smooth()</code> layer. </li>
+</ul>
+
+<p><img src="figure/unnamed-chunk-25-1.png" alt="plot of chunk unnamed-chunk-25"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>gam</code> Smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><code>gam</code> smoothing is called generalized additive mode smoothing.</li>
+<li>It works with a large number of points. </li>
+<li>We specify this by adding <code>method=&quot;gam&quot;, formula = y~s(x)</code> into the <code>geom_smooth()</code> layer. </li>
+</ul>
+
+<pre><code class="r">library(mgcv)
+ggplot(data, aes(x=cd4cnt, y= vl)) + 
+        geom_point() +
+        geom_smooth(method=&quot;gam&quot;, formula = y ~s(x))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>gam</code> Smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The code for this is very similar and we can see how it looks below:</li>
+</ul>
+
+<p><img src="figure/unnamed-chunk-27-1.png" alt="plot of chunk unnamed-chunk-27"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-49" style="background:grey;">
+  <hgroup>
+    <h1>Graphs to Compare Categorical and Continuous Data</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Graphs to Compare Categorical and Continuous Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Many times we need to compare categorical and continuous data. </li>
+<li>We will consider the following <code>geom_</code> functions to do this:
+
+<ul>
+<li><code>geom_jitter</code> adds random noise</li>
+<li><code>geom_boxplot</code> boxplots</li>
+<li><code>geom_violin</code> compact version of density </li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Jitter Plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In when you group continuous data into different categories, it can be hard to see where all of the data lies since many points can lie right on top of each other.<br></li>
+<li>The jitter plot will and a small amount of random noise to the data and allow it to spread out and be more visible. </li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(x=race, y= vl)) +
+        geom_jitter()
+</code></pre>
+
+<ul>
+<li>We can add this as another layer just like we did with <code>geom_point()</code> .</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Jitter Plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-29-1.png" alt="plot of chunk unnamed-chunk-29"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Boxplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Boxplots are one of the most commonly used statistics plots to display continuous data. </li>
+<li>It is extremely useful to evaluate the distribution of a continuous random variable across multiple groups. </li>
+<li>We can easily make this by adding a <code>geom_boxplot()</code> layer:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(x=race, y= vl)) + 
+        geom_boxplot()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Boxplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-31-1.png" alt="plot of chunk unnamed-chunk-31"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Violin</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Another plot to help display continuous data among different categories. </li>
+<li>In order to deal with multiple data points lying in a close area, the violin plot is wider at points where the data is bulked. </li>
+<li>We can simply code this with a <code>geom_violin()</code> layer:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(x=race, y= vl)) + 
+        geom_violin()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Violin</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-33-1.png" alt="plot of chunk unnamed-chunk-33"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-57" style="background:grey;">
+  <hgroup>
+    <h1>Continuous Distributions</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Continuous Distributions</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>If we consider just looking at continuous variables we become interested in understanding the distribution that this data takes on. </li>
+<li>We will explore continuous data using:
+
+<ul>
+<li><code>geom_histogram()</code> shows us the distribution of one variable.</li>
+<li><code>geom_freqplot</code> uses lines rather than boxes to show the distribution.</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Histograms</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Another very common graphic that most people have seen and used is the histogram.</li>
+<li>This is common among continuous data where the data is split up into bins and the frequency of those bins is displayed. </li>
+<li>They are not to be confused with bar charts though! </li>
+<li>There are no gaps in a histogram. We can add a histogram layer simply by using the <code>geom_histogram()</code>, if we would like to specify the width of bins we can do that by using <code>binwidth=__</code>:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes)) + 
+        geom_histogram(binwidth=25)
+ggplot(data, aes( vl)) + 
+        geom_histogram(binwidth=1)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Histograms</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-35-1.png" alt="plot of chunk unnamed-chunk-35"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Histograms</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>If we wanted to allow for more preciseness then we could use the bin width of 1:</li>
+</ul>
+
+<p><img src="figure/unnamed-chunk-36-1.png" alt="plot of chunk unnamed-chunk-36"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Frequency Plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Frequency plots are very similar to histograms. </li>
+<li>Instead of just having bars to display the frequency in a bin, the frequency plot would place a point at the height of the bar and then connect them with lines. We can simply add this with the <code>geom_freqpoly()</code> layer. </li>
+<li>We again can use the <code>binwidth=__</code> command:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(cd4cnt)) + 
+        geom_freqpoly(binwidth=25)
+ggplot(data, aes( cd4cnt)) + 
+        geom_freqpoly(binwidth=1)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Frequency Plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-38-1.png" alt="plot of chunk unnamed-chunk-38"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Frequency Plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can also use a more precise bin width. </li>
+</ul>
+
+<p><img src="figure/unnamed-chunk-39-1.png" alt="plot of chunk unnamed-chunk-39"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Adding Aesthetics</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Just like in the earlier part of this unit we saw that it was possible to add a great deal of aesthetics to plots. </li>
+<li>We will now view how these changes work on these <code>geom_</code> functions:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(cd4cnt, color=race)) + 
+        geom_freqpoly(binwidth=25)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Adding Aesthetics</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>If we add grouping color by race we can see the plot below. </li>
+<li>Notice that we now have multiple frequency plots without having to use faceting. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Adding Aesthetics</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-41-1.png" alt="plot of chunk unnamed-chunk-41"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Adding Aesthetics</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Instead of just coloring the lines, we can use the <code>fill=__</code> function in order to fill a color by race in this case. </li>
+<li>Then we create histograms and finally in order to separate the plots out so we can see things better we use facetting:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes( cd4cnt, fill = race)) + 
+        geom_histogram(binwidth=20) + 
+        facet_wrap(~race)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Adding Aesthetics</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-43-1.png" alt="plot of chunk unnamed-chunk-43"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-70" style="background:grey;">
+  <hgroup>
+    <h1>Extra Graphs</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Bar Charts</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">ggplot(data, aes( race) )+
+         geom_bar()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-45-1.png" alt="plot of chunk unnamed-chunk-45"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Line and Path plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">ggplot(data, aes(cd4cnt, vl)) + 
+  geom_line()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-47-1.png" alt="plot of chunk unnamed-chunk-47"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-75" style="background:grey;">
+  <hgroup>
+    <h1>Labeling</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Labeling</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>It is very important when making graphs to be able to label features. </li>
+<li>We will look at various ways in which we can label our graphics now. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Labeling the Axes</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can add a lot of features to the axes but for now we will just change labels. </li>
+<li>We use <code>xlab</code> and <code>ylab</code> for this, if we set them to <code>NULL</code> we have blank axes labels. </li>
+<li>For example we can make a graph based on departure viral load and speed:</li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(vl, cd4cnt)) +
+    geom_point(alpha = 1 / 3) +
+    xlab(&quot;Viral Load)&quot;) +
+    ylab(&quot;CD4 Count&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Labeling the Axes</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can see that the <code>xlab()</code> and the <code>ylab()</code> functions are just added in as layers. </li>
+<li>They produce the graph below. </li>
+</ul>
+
+<p><img src="figure/unnamed-chunk-49-1.png" alt="plot of chunk unnamed-chunk-49"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Other Text Labels</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Aside from labeling the axes, many times we want to add other text into our graphics. <code>geom_text</code> will allow a user to add text to a graph. </li>
+<li>We simply add <code>geom_text()</code> as a layer and this layer has the following options:
+
+<ul>
+<li>the option <code>family</code> allows a user to specify font.</li>
+<li>the option <code>fontface</code> allows a user to specify: plain, bold or italic.</li>
+<li><code>hjust, vjust</code> allows a user to specify location of the text.</li>
+<li><code>size</code> allows the user to adjust the size of a graph. </li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Font Families</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We will first look at the different font styles that could be used with <code>geom_text()</code> using the <code>family</code> option.<br></li>
+<li>These 3 fonts work with every type of graph in ggplot: </li>
+</ul>
+
+<pre><code class="r">df &lt;- data.frame(x = 1, y = 3:1, family = c(&quot;sans&quot;, &quot;serif&quot;, &quot;mono&quot;))
+ggplot(df, aes(x, y)) +
+geom_text(aes(label = family, family = family))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Font Families</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-51-1.png" alt="plot of chunk unnamed-chunk-51"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Font Face Styles</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Many times we also wish to add other attributes to our text. </li>
+<li><p>The font face allows for plain text, <strong>bold text</strong>, and <em>italic text</em>. </p>
+
+<pre><code class="r">df &lt;- data.frame(x = 1, y = 3:1, face = c(&quot;plain&quot;, &quot;bold&quot;, &quot;italic&quot;))
+ggplot(df, aes(x, y)) +
+geom_text(aes(label = face, fontface = face))
+</code></pre></li>
+<li><p>Once again, <code>geom_text()</code> is a layer and this time we use the text labels of:</p>
+
+<ul>
+<li>plain</li>
+<li>bold</li>
+<li>italic</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Font Face Styles</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-53-1.png" alt="plot of chunk unnamed-chunk-53"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Nudge to label existing points</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The nudge allows us to move the text horizontally or vertically to label points. </li>
+<li>If we did not do this, our text would lie directly on top of the point. </li>
+<li>We use <code>nudge_x</code> and <code>nudge_y</code> in order to move the text in the <code>x</code> and <code>y</code> direction respectively.</li>
+</ul>
+
+<pre><code class="r">df &lt;- data.frame(trt = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), resp = c(1.2, 3.4, 2.5))
+ggplot(df, aes(resp, trt)) +
+    geom_point() +
+    geom_text(aes(label = paste0(&quot;(&quot;, resp, &quot;)&quot;)), nudge_y = -0.25) +
+    xlim(1, 3.6)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Nudge to label existing points</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-55-1.png" alt="plot of chunk unnamed-chunk-55"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Labels Rather than a Legend</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>One other common feature of a graph can be to use labeling rather than a legend. </li>
+<li>The code is a bit more advanced for this phase, below you can see that we have done a few different things. 
+
+<ol>
+<li>We created 2 plots <code>p1</code> and <code>p2</code>. </li>
+<li><code>p2</code> uses <code>geom_dl()</code> to add labels as a legend</li>
+<li><code>grid.arrange()</code> allows us to place the graphs side by side. </li>
+</ol></li>
+</ul>
+
+<pre><code class="r">library(directlabels)
+library(gridExtra)
+p1 = ggplot(mpg, aes(displ, hwy, colour = class)) +
+    geom_point()
+p2 = ggplot(mpg, aes(displ, hwy, colour = class)) +
+    geom_point(show.legend = FALSE) +
+    geom_dl(aes(label = class), method = &quot;smart.grid&quot;)
+grid.arrange(p1,p2, ncol=2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-57-1.png" alt="plot of chunk unnamed-chunk-57"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Other Aesthetic Mappings</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Sometimes we map aesthetics to constant values. This allows us to distinguish between layers.</p>
+
+<pre><code class="r">ggplot(data, aes(cd4cnt,vl )) + 
+    geom_point() + 
+    geom_smooth(aes(color=&quot;lm&quot;), method=&quot;lm&quot;, se=F) + 
+    geom_smooth(aes(color=&quot;loess&quot;), method=&quot;loess&quot;, se=F) + 
+  labs(color = &quot;Method&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-59-1.png" alt="plot of chunk unnamed-chunk-59"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Statistical Transforms</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Many times we wish to do more than what we have seen at this point. </li>
+<li>We wish to add different statistical features to the graph. <code>stat</code> transforms the data. </li>
+<li>This is typically just a summary of some sort. </li>
+<li>Useful ones are smoothing or identity. </li>
+<li>You typically do not call them directly but the <code>geom</code> does. </li>
+</ul>
+
+<pre><code class="r">ggplot(data, aes(race, vl)) + 
+    geom_point() + 
+    stat_summary(geom = &quot;point&quot;, fun.y = &quot;mean&quot;, color = &quot;red&quot;, size = 3)
+
+ggplot(data, aes(race, vl)) + 
+    geom_point()+ 
+    geom_point(stat = &quot;summary&quot;, fun.y = &quot;mean&quot;, color = &quot;red&quot;, size = 3)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-61-1.png" alt="plot of chunk unnamed-chunk-61"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Position Adjustments</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can use position adjustments to tweak the position of elements. </li>
+<li>For example with bars:
+
+<ul>
+<li><code>position_stack()</code> stack overlapping bars</li>
+<li><code>position_fill()</code> stack overlapping bars and scale to 1</li>
+<li><code>position_dodge()</code> place overlapping bars next to each other.</li>
+</ul></li>
+</ul>
+
+<pre><code class="r">dplot &lt;- ggplot(diamonds, aes(color, fill = cut)) +
+    xlab(NULL) + ylab(NULL) + theme(legend.position = &quot;none&quot;)
+    # position stack is the default for bars, so geom_bar()
+    # is equivalent to geom_bar(position = &quot;stack&quot;).
+    p1 = dplot + geom_bar()
+    p2 = dplot + geom_bar(position = &quot;fill&quot;)
+    p3 = dplot + geom_bar(position = &quot;dodge&quot;)
+grid.arrange(p1,p2,p3, ncol=3)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-63-1.png" alt="plot of chunk unnamed-chunk-63"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-94" style="background:grey;">
+  <hgroup>
+    <h1>Modifying Axes and Scales</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Axes and Legends</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can modify both axes and legends. <code>ggplot2</code> actually considers these objects to be the same type of object. </li>
+<li>This means if we learn the tools to work with a legend then we can change the Axes in the same way and vice-verse. </li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Axis</th>
+<th>Legend</th>
+<th>Argument Name</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Label</td>
+<td>Title</td>
+<td><code>name</code></td>
+</tr>
+<tr>
+<td>Ticks, grid line</td>
+<td>Key</td>
+<td><code>breaks</code></td>
+</tr>
+<tr>
+<td>tick Label</td>
+<td>Key Label</td>
+<td><code>labels</code></td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Scales</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Scales are required and included in every plot. </li>
+<li>If we do  not specify them, <code>ggplot2</code> includes them in the background. </li>
+<li>For example:
+<code>
+geom(data, aes(cd4cnt, vl)) +
+geom_point(aes(color=&quot;race&quot;))
+</code></li>
+</ul>
+
+<p>is  read in by <code>ggplot2</code> as : </p>
+
+<pre><code>geom(data, aes(cd4cnt, vl))+ 
+    geom_point(aes(color=&quot;race&quot;)) + 
+    scale_x_continuous() + 
+    scale_y_continuous() + 
+    scale_color_discrete()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Scale Title</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The first argument in a scale function is the axes/legend title. </li>
+<li>We can use 2 types of text:
+
+<ul>
+<li>Strings</li>
+<li>Mathematical Expressions</li>
+</ul></li>
+<li>For example we will create 2 plots below. </li>
+<li>They will be the same plot but we will allow the first one to just be a string and the second to be a mathematical expression. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Scale Title</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">df &lt;- data.frame(x = 1:2, y = 1, z = &quot;a&quot;)
+    p &lt;- ggplot(df, aes(x, y)) + geom_point()
+    p1 = p + scale_x_continuous(&quot;X axis&quot;)
+    p2 = p + scale_x_continuous(quote(a + mathematical ^ expression))
+grid.arrange(p1,p2, ncol=2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Scale Title</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-65-1.png" alt="plot of chunk unnamed-chunk-65"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Labeling a Scale</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Earlier we learned about common labeling functions such as:
+
+<ul>
+<li><code>xlab</code></li>
+<li><code>ylab</code></li>
+<li><code>labs</code></li>
+</ul></li>
+<li>We can also use common text notations in order to add further details:</li>
+</ul>
+
+<pre><code class="r">p &lt;- ggplot(df, aes(x, y)) + geom_point(aes(colour = z))
+    p1 = p + xlab(&quot;X axis&quot;) + ylab(&quot;Y axis&quot;)
+    p2 = p + labs(x = &quot;X axis&quot;, y = &quot;Y axis&quot;, 
+                  colour = &quot;Colour\nlegend&quot;)
+grid.arrange(p1,p2, ncol=2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-67-1.png" alt="plot of chunk unnamed-chunk-67"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Breaks and Labels</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We not only like to be able to change the labels of scales but it can be helpful to choose the tick marks as well. </li>
+<li>The  <code>breaks</code> argument controls what values appear as the tick marks on axes and keys.</li>
+</ul>
+
+<pre><code class="r">df &lt;- data.frame(x = c(1, 3, 5) * 1000, y = 1)
+axs &lt;- ggplot(df, aes(x, y)) +
+geom_point() +
+labs(x = NULL, y = NULL)
+axs
+axs + scale_x_continuous(breaks = c(2000, 4000))
+axs + scale_x_continuous(breaks = c(2000, 4000), labels = c(&quot;2k&quot;, &quot;4k&quot;))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-69-1.png" alt="plot of chunk unnamed-chunk-69"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <ul>
+<li>As it was state before <code>ggplot2</code> considers axes and legends to be the same type.</li>
+<li>This means if we are creating a continuous scale with a bar graph coloring or even a heat map we can change the tick marks on the legend as well. </li>
+</ul>
+
+<pre><code class="r">leg &lt;- ggplot(df, aes(y, x, fill = x)) +
+    geom_tile() +
+    labs(x = NULL, y = NULL)
+leg
+leg + scale_fill_continuous(breaks = c(2000, 4000))
+leg + scale_fill_continuous(breaks = c(2000, 4000), labels = c(&quot;2k&quot;, &quot;4k&quot;))
+</code></pre>
+
+<ul>
+<li>We see that just like the axes above we now have three different legends with the tick marks and labels of them changed. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-71-1.png" alt="plot of chunk unnamed-chunk-71"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <ul>
+<li>We can also force different axes to be on a discrete scale rather than continuous. </li>
+</ul>
+
+<pre><code class="r">df2 &lt;- data.frame(x = 1:3, y = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
+ggplot(df2, aes(x, y)) +
+    geom_point()
+ggplot(df2, aes(x, y)) +
+    geom_point() +
+    scale_y_discrete(labels = c(a = &quot;apple&quot;, 
+                                b = &quot;banana&quot;, c = &quot;carrot&quot;))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-73-1.png" alt="plot of chunk unnamed-chunk-73"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-108" style="background:grey;">
+  <hgroup>
+    <h1>Legends</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Legends</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Many of the previous characteristics are the same for both axes and legends. </li>
+<li>Legends can:
+
+<ul>
+<li>Display multiple aesthetics from multiple layers</li>
+<li>Appear in many different locations.</li>
+<li>Can be sized and ordered differently. </li>
+</ul></li>
+<li>You can also choose what is placed in a legend. </li>
+<li>We use the <code>show.legend</code> command to do this.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Legends</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">ggplot(df, aes(y, y)) +
+    geom_point(size = 4, colour = &quot;grey20&quot;) +
+    geom_point(aes(colour = z), size = 2)
+ggplot(df, aes(y, y)) +
+    geom_point(size = 4, colour = &quot;grey20&quot;, 
+               show.legend = TRUE) +
+    geom_point(aes(colour = z), size = 2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Legends</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Sometimes we wish to have the legends display different things. </li>
+<li>For example if we use transparent colors in the plot we may want solid colors in the legend. </li>
+<li>The <code>alpha</code> command will make the colors more transparent. </li>
+<li>However we can override the legend colors and set the <code>alpha</code> differently: </li>
+</ul>
+
+<pre><code class="r">norm &lt;- data.frame(x = rnorm(1000), y = rnorm(1000))
+norm$z &lt;- cut(norm$x, 3, labels = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
+ggplot(norm, aes(x, y)) +
+    geom_point(aes(colour = z), alpha = 0.1)
+ggplot(norm, aes(x, y)) +
+    geom_point(aes(colour = z), alpha = 0.1) +
+    guides(colour = guide_legend(override.aes = list(alpha = 1)))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Legends</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-77-1.png" alt="plot of chunk unnamed-chunk-77"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Legend Layouts</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can choose the specific layout of the legend. </li>
+<li>For example we can place it at the  &quot;top&quot;, &quot;bottom&quot;, &quot;right&quot; , &quot;left&quot; or not even have a legend at all.</li>
+</ul>
+
+<pre><code class="r">df &lt;- data.frame(x = 1:3, y = 1:3, z = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
+base &lt;- ggplot(df, aes(x, y)) +
+    geom_point(aes(colour = z), size = 3) +
+    xlab(NULL) +
+    ylab(NULL)
+base + theme(legend.position = &quot;right&quot;) # the default
+base + theme(legend.position = &quot;bottom&quot;)
+base + theme(legend.position = &quot;none&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Legends</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-79-1.png" alt="plot of chunk unnamed-chunk-79"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='<code>ggplot2</code>'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='<code>ggplot2</code>'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='What can&#39;t <code>ggplot2</code> do?'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='<code>ggplot2</code> components'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='<code>ggplot2</code> components'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='HERS Study'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='HERS Study'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='HERS Study'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='<code>ggplot2</code> Basics'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='<code>ggplot2</code> Basics'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='<code>ggplot2</code> Basics'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='<code>ggplot2</code> Basics'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Aesthetic Attributes'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Aesthetic Attributes'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Color'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Color by Groups'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Color by Groups'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Color by Groups'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Color of points'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Color of points'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Size'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Size'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Shape'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Shape'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Facetting'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Facetting'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='<code>facet_wrap</code>'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='<code>facet_wrap</code>'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='<code>facet_wrap</code>'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='<code>facet_grid</code>'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='<code>facet_grid</code>'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='<code>facet_grid</code>'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='What about Other plots?'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Smoothing'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Smoothing'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Smoothing'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Smoothing'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Smoothing'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Smoothing'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='On Your Own: Rstudio Practice'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Varying the Smooth'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Varying the Smooth'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='Varying the Smooth'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='Different Types of Smooths'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='Loess Smooths'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='Loess Smooths'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='<code>gam</code> Smoothing'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='<code>gam</code> Smoothing'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='Graphs to Compare Categorical and Continuous Data'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='Graphs to Compare Categorical and Continuous Data'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='Jitter Plot'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='Jitter Plot'>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title='Boxplot'>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='Boxplot'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='Violin'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='Violin'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='Continuous Distributions'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='Continuous Distributions'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='Histograms'>
+         59
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=60 title='Histograms'>
+         60
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=61 title='Histograms'>
+         61
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=62 title='Frequency Plots'>
+         62
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=63 title='Frequency Plots'>
+         63
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=64 title='Frequency Plots'>
+         64
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=65 title='Adding Aesthetics'>
+         65
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=66 title='Adding Aesthetics'>
+         66
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=67 title='Adding Aesthetics'>
+         67
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=68 title='Adding Aesthetics'>
+         68
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=69 title='Adding Aesthetics'>
+         69
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=70 title='Extra Graphs'>
+         70
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=71 title='Bar Charts'>
+         71
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=72 title='NA'>
+         72
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=73 title='Line and Path plots'>
+         73
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=74 title='NA'>
+         74
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=75 title='Labeling'>
+         75
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=76 title='Labeling'>
+         76
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=77 title='Labeling the Axes'>
+         77
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=78 title='Labeling the Axes'>
+         78
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=79 title='Other Text Labels'>
+         79
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=80 title='Font Families'>
+         80
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=81 title='Font Families'>
+         81
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=82 title='Font Face Styles'>
+         82
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=83 title='Font Face Styles'>
+         83
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=84 title='Nudge to label existing points'>
+         84
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=85 title='Nudge to label existing points'>
+         85
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=86 title='Labels Rather than a Legend'>
+         86
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=87 title='NA'>
+         87
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=88 title='Other Aesthetic Mappings'>
+         88
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=89 title='NA'>
+         89
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=90 title='Statistical Transforms'>
+         90
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=91 title='NA'>
+         91
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=92 title='Position Adjustments'>
+         92
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=93 title='NA'>
+         93
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=94 title='Modifying Axes and Scales'>
+         94
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=95 title='Axes and Legends'>
+         95
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=96 title='Scales'>
+         96
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=97 title='Scale Title'>
+         97
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=98 title='Scale Title'>
+         98
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=99 title='Scale Title'>
+         99
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=100 title='Labeling a Scale'>
+         100
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=101 title='NA'>
+         101
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=102 title='Breaks and Labels'>
+         102
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=103 title='NA'>
+         103
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=104 title='NA'>
+         104
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=105 title='NA'>
+         105
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=106 title='NA'>
+         106
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=107 title='NA'>
+         107
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=108 title='Legends'>
+         108
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=109 title='Legends'>
+         109
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=110 title='Legends'>
+         110
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=111 title='Legends'>
+         111
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=112 title='Legends'>
+         112
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=113 title='Legend Layouts'>
+         113
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=114 title='Legends'>
+         114
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/interactive/js/ace/js/ace.js"></script>
+<script src="libraries/widgets/interactive/js/opencpu-0.5.js"></script>
+<script src="libraries/widgets/interactive/js/interactive.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

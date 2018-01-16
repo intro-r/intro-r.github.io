@@ -1,0 +1,42 @@
+---
+title: ""
+---
+
+<br/><br/><br/><br/>
+<div class="row">
+<div class="col-xs-12 col-sm-3 text-center">
+<br/>
+<img src="figs/r.jpg" alt="coffee" style="width:400px;" align = "top"/> 
+</div>
+<div class="col-xs-12 col-sm-9">
+
+<span style="font-family:myFancyFont; font-size:3em">Welcome to</span>
+
+
+<span style="font-family:myFancyFont; font-size:3em">Introduction to Statistics in R</span>
+</center>
+</div>
+</div>
+
+
+<br/><br/><br/>
+
+
+<br/><br/>
+
+
+## Course Summary 
+
+This course will introduce basic statistical skills using R for supporting research in the life sciences and public health. The overall course will be done in the context of student chosen projects, with the goal of establishing necessary foundational statistical techniques for supporting longer-term research goals. 
+ 
+Students are expected to be graduate students, medical students, or have instructor permission before taking this course. No assumptions are made about computer-based analytic background. 
+
+
+## Course Objectives
+
+The ***goal*** of this course is for students to gain foundational statistical skills using R that are immediately applicable to support life sciences and public health research. To this end, it is expected that, by the end of the course, students will demonstrate the applicability of data analytic skills in the context of a research project.
+
+Specific ***learning objectives*** are thus to:
+
+1. Gain statistical skills for analyzing life sciences and public health data
+2. Demonstrate application of statistical skills in support of a specific life sciences or public health research project

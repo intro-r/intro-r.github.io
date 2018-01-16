@@ -1,0 +1,786 @@
+---
+title       : Intro to R Programming for Biostatistics
+subtitle    : "Day 3 - Regression in R"
+author      : Adam J Sullivan
+job         : 
+  license     : by-nc-nd
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax, quiz, bootstrap, interactive]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+logo        : shield_image.png
+biglogo     : shield_image_large.png
+knit        : slidify::knit2slides
+assets      : {assets: ../../assets}
+---  .segue bg:grey
+
+```{r setup, include = FALSE, cache = FALSE}
+knitr::opts_chunk$set(error = TRUE)
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(warning=FALSE)
+knitr::opts_chunk$set(message=FALSE)
+```
+
+```{r, echo=F}
+require(nycflights13)
+require(tidyverse)
+require(gapminder)
+```
+
+
+# Regression Models in R
+
+
+---  .segue bg:grey
+
+# Linear Regression in R
+
+--- .class #id
+
+## Linear Regression in R
+
+
+- We can use R to easily fit linear regressions for us. 
+- This section will explore the basic commands for linear regression as well as how to test assumptions. 
+- We will not teach linear regression, but only seek to display how R does it. 
+
+
+--- .class #id
+
+## `lm()` Function in R
+
+- To fit Linear Regression models in R we use the `lm()` function. 
+
+```
+lm(formula, data, subset, weights, na.action,
+   method = "qr", model = TRUE, x = FALSE, y = FALSE, qr = TRUE,
+   singular.ok = TRUE, contrasts = NULL, offset, ...)
+```
+
+- `formula` is the regressino equation written as `y~x1 + x2+ ...`
+- `data` is the dataframe of interest.
+- `subset` specific subset of data. 
+- `weights` for weighted data. 
+- ...
+
+--- .class #id
+
+## Gapminder Data
+
+- Worldwide data source. 
+- Contains 6 variables
+
+| Variable  | Meaning |
+| --------  | ------- |
+| country   | Country Name |
+| continent | Continent Name |
+| year  |  Year Data Accounts For |
+| lifeExp | Life Expectancy at Birth | 
+| pop | Total Population | 
+| gdpPercap | per-Capita GDP | 
+
+- Per-capita GDP (Gross domestic product) is given in units of international dollars, "a hypothetical unit of currency that has the same purchasing power parity that the U.S. dollar had in the United States at a given point in time" -- 2005, in this case.
+
+
+--- .class #id
+
+## Gapminder Data
+
+```{r}
+library(gapminder)
+```
+
+--- .class #id
+
+## Gapminder Data
+
+```{r, echo=FALSE}
+gapminder
+```
+
+--- .class #id
+
+## Gapminder Regression
+
+```{r}
+
+kenya <- gapminder %>% filter(country=="Kenya")
+kenya_model <- lm(lifeExp ~ year, data=kenya)
+kenya_model
+```
+
+--- .class #id
+
+## Gapminder Regression
+
+- Basic Model Statement does not include much information
+- If we look further we can see what type of object is returned:
+
+```{r}
+str(kenya_model)
+```
+
+--- .class #id
+
+## Gapminder Regression
+
+- We see that this is a list
+- We can find out what is contained in a list by using the `names()` function.
+
+
+```{r}
+names(kenya_model)
+```
+
+--- .class #id
+
+## Gapminder Regression
+
+
+- We see different values that are listed here. 
+- Lets look at the coefficients
+
+```{r}
+kenya_model$coefficients
+```
+
+--- .class #id
+
+## Gapminder Regression
+
+- We can use other commands on a regression
+- For example we can use the `summary()` function:
+
+```{r, eval=F}
+summary(kenya_model)
+```
+
+--- .class #id
+
+## Gapminder Regression
+
+
+```{r, echo=F}
+summary(kenya_model)
+```
+
+
+--- .class #id
+
+## Gapminder Regression
+
+
+```{r, eval=F}
+kenya_summary <- summary(kenya_model)
+names(kenya_summary)
+```
+
+--- .class #id
+
+## Other Regression Functions
+
+- Other useful functions are listed below:
+  - coefficients(kenya_model) # model coefficients
+  - confint(kenya_model, level=0.95) # CIs for model parameters 
+  - fitted(kenya_model) # predicted values
+  - residuals(kenya_model) # residuals
+  - anova(kenya_model) # anova table 
+  - vcov(kenya_model) # covariance matrix for model parameters 
+  - influence(kenya_model) # regression diagnostics
+
+
+
+--- .class #id
+
+## Diagnostic Model Plots
+
+```{R, eval=FALSE}
+par(mfrow=c(2,2)) # optional 4 graphs/page 
+plot(kenya_model)
+```
+
+--- .class #id
+
+## Diagnostic Model Plots
+
+```{R, echo=FALSE}
+par(mfrow=c(2,2))  # optional 4 graphs/page 
+plot(kenya_model)
+```
+
+
+--- .class #id
+
+## Comparing Models
+
+- We can compare nested models using the `anova()` function. 
+
+```{r}
+kenya_model2 <- lm(lifeExp ~ year + pop, data=kenya)
+anova(kenya_model, kenya_model2)
+```
+
+
+--- .class #id
+
+## `broom` Package: Easier to View Results
+
+- There is a package called `broom` which makes results of regressions easier to view and compare. 
+- We will call this package and use the `tidy()` and `glance()` functions.
+
+```{r, eval=FALSE}
+library(broom)
+tidy(kenya_model)
+glance(kenya_model)
+```
+
+--- .class #id
+
+## `broom` Package: Easier to View Results
+
+
+```{r, echo=FALSE}
+library(broom)
+tidy(kenya_model)
+glance(kenya_model)
+```
+
+
+--- .class #id
+
+## `broom` Package: Easier to View Results
+
+- We can also compare multiple models at the same time
+- Using the commands we learned in data cleaning: 
+
+```{r, eval=FALSE}
+
+tidy1 <- tidy(kenya_model)
+tidy2 <- tidy(kenya_model2)
+bind_rows(tidy1, tidy2)
+```
+
+
+
+--- .class #id
+
+## `broom` Package: Easier to View Results
+
+- We can also compare multiple models at the same time
+- Using the commands we learned in data cleaning: 
+
+```{r, echo=FALSE}
+
+tidy1 <- tidy(kenya_model)
+tidy2 <- tidy(kenya_model2)
+bind_rows(tidy1, tidy2)
+```
+
+
+--- .class #id
+
+## `broom` Package: Easier to View Results
+
+- Again for `glance()`
+
+```{r, eval=FALSE}
+
+glance1 <- glance(kenya_model)
+glance2 <- glance(kenya_model2)
+bind_rows(glance1, glance2)
+```
+
+
+--- .class #id
+
+## `broom` Package: Easier to View Results
+
+
+```{r, echo=FALSE}
+
+glance1 <- glance(kenya_model)
+glance2 <- glance(kenya_model2)
+bind_rows(glance1, glance2)
+```
+
+--- .class #id
+
+## Variable Selection: Stepwise Regression
+
+```{r, eval=FALSE} 
+library(MASS)
+fit <- lm(lifeExp~year +pop + gdpPercap,data=mydata)
+step <- stepAIC(fit, direction="both")
+step$anova # display results
+```
+
+
+--- .class #id
+
+## More Detailed Regression Diagnostics
+
+- We can see more regression diagnostics using the `car` package
+- With this package we have the following functions
+
+
+
+--- .class #id
+
+## More Detailed Regression Diagnostics: Outliers
+
+```{r, eval=FALSE}
+library(car)
+outlierTest(kenya_model2) # Bonferonni p-value for most extreme obs
+qqPlot(kenya_model2, main="QQ Plot") #qq plot for studentized resid 
+leveragePlots(kenya_model2) # leverage plots
+```
+
+
+
+--- .class #id
+
+## More Detailed Regression Diagnostics: Outliers
+
+```{r}
+outlierTest(kenya_model2) # Bonferonni p-value for most extreme obs
+
+```
+
+
+
+--- .class #id
+
+## More Detailed Regression Diagnostics: Outliers
+
+```{r}
+qqPlot(kenya_model2, main="QQ Plot") #qq plot for studentized resid 
+```
+
+
+
+--- .class #id
+
+## More Detailed Regression Diagnostics: Outliers
+
+```{r}
+leveragePlots(kenya_model2) # leverage plots
+```
+
+
+
+--- .class #id
+
+## More Detailed Regression Diagnostics: Influential Observations
+
+```{r, eval=FALSE}
+# Influential Observations
+# added variable plots 
+av.plots(kenya_model2)
+# Cook's D plot
+# identify D values > 4/(n-k-1) 
+cutoff <- 4/((nrow(kenya)-length(kenya_model2$coefficients)-2)) 
+plot(kenya_model2, which=4, cook.levels=cutoff)
+# Influence Plot 
+influencePlot(kenya_model2,	id.method="identify", main="Influence Plot", sub="Circle size is proportial to Cook's Distance" )
+```
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Influential Observations
+
+```{r, echo=FALSE}
+av.plots(kenya_model2)
+```
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Influential Observations
+
+```{r, echo=FALSE}
+# Cook's D plot
+# identify D values > 4/(n-k-1) 
+cutoff <- 4/((nrow(kenya)-length(kenya_model2$coefficients)-2)) 
+plot(kenya_model2, which=4, cook.levels=cutoff)
+
+```
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Influential Observations
+
+```{r, echo=FALSE}
+# Influence Plot 
+influencePlot(kenya_model2,	id.method="identify", main="Influence Plot", sub="Circle size is proportial to Cook's Distance" )
+```
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Normality
+
+```{r, eval=FALSE}
+# Normality of Residuals
+# qq plot for studentized resid
+qqPlot(kenya_model2, main="QQ Plot")
+# distribution of studentized residuals
+library(MASS)
+sresid <- studres(kenya_model2) 
+hist(sresid, freq=FALSE, 
+   main="Distribution of Studentized Residuals")
+xfit<-seq(min(sresid),max(sresid),length=40) 
+yfit<-dnorm(xfit) 
+lines(xfit, yfit)
+```
+
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Normality
+
+```{r, echo=FALSE}
+# Normality of Residuals
+# qq plot for studentized resid
+qqPlot(kenya_model2, main="QQ Plot")
+```
+
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Normality
+
+```{r, echo=FALSE}
+# distribution of studentized residuals
+library(MASS)
+sresid <- studres(kenya_model2) 
+hist(sresid, freq=FALSE, 
+   main="Distribution of Studentized Residuals")
+xfit<-seq(min(sresid),max(sresid),length=40) 
+yfit<-dnorm(xfit) 
+lines(xfit, yfit)
+```
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Error Variance
+
+```{r, eval=FALSE}
+# Evaluate homoscedasticity
+# non-constant error variance test
+ncvTest(kenya_model2)
+# plot studentized residuals vs. fitted values 
+spreadLevelPlot(kenya_model2)
+```
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Error Variance
+
+```{r, echo=FALSE}
+# Evaluate homoscedasticity
+# non-constant error variance test
+ncvTest(kenya_model2)
+
+```
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Multi-collinearity
+
+```{r}
+# Evaluate Collinearity
+vif(kenya_model2) # variance inflation factors 
+sqrt(vif(kenya_model2)) > 2 # problem?
+```
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Linearity
+
+```{r, eval=FALSE}
+# Evaluate Nonlinearity
+# component + residual plot 
+crPlots(kenya_model2)
+```
+
+
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Linearity
+
+```{r, echo=FALSE}
+# Evaluate Nonlinearity
+# component + residual plot 
+crPlots(fit)
+```
+
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Autocorrelation
+
+```{r}
+# Test for Autocorrelated Errors
+durbinWatsonTest(kenya_model2)
+```
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Multiple Tests
+
+- We can use one more package to help us with regression diagnostics
+- This is the `gvlma` package.
+
+```{r}
+library(gvlma)
+```
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Multiple Tests
+
+```{R}
+gvlma(kenya_model)
+```
+
+
+--- .class #id
+
+
+## More Detailed Regression Diagnostics: Multiple Tests
+
+```{R}
+gvlma(kenya_model2)
+```
+
+---  .segue bg:grey
+
+# Generallized Linear Models in R
+
+
+
+--- .class #id
+
+## Generalized Linear Models in R
+
+- Generalized linear models are fit using the `glm()` function. 
+- The form of the glm function is
+
+```
+glm(formula, family=familytype(link=linkfunction), data=)
+```
+
+
+--- .class #id
+
+## Link Functions
+
+
+| Family  |	Default Link Function |
+| ------- | --------------------- |
+| binomial | 	(link = "logit") |
+| gaussian	| (link = "identity") |
+| Gamma	| (link = "inverse") |
+| inverse.gaussian	| (link = "1/mu^2") |
+| poisson| 	(link = "log") |
+| quasi	| (link = "identity", variance = "constant") |
+| quasibinomial | 	(link = "logit") |  
+| quasipoisson	| (link = "log") |
+
+
+
+--- .class #id
+
+## Further GLM Help
+
+- See `help(glm)` for other modeling options. 
+- See `help(family)` for other allowable link functions for each family. 
+- Two subtypes of generalized linear models will be covered here: 
+    - logistic regression
+    -  poisson regression
+
+
+--- .class #id
+
+## Logistic Regression
+
+
+- Logistic regression is useful when you are predicting a binary outcome from a set of continuous predictor variables. 
+- It is frequently preferred over discriminant function analysis because of its less restrictive assumptions.
+
+
+
+
+--- .class #id
+
+## Fitting Logistic Regression
+
+```
+fit <- glm(F~x1+x2+x3,data=mydata,family=binomial(link="logit"))
+summary(fit) # display results
+confint(fit) # 95% CI for the coefficients
+exp(coef(fit)) # exponentiated coefficients
+exp(confint(fit)) # 95% CI for exponentiated coefficients
+predict(fit, type="response") # predicted values
+residuals(fit, type="deviance") # residuals
+```
+
+
+
+--- .class #id
+
+## Comparing Nested Logistic Models
+
+- You can use `anova(fit1,fit2, test="Chisq")` to compare nested models. 
+- Additionally, `cdplot(F~x, data=mydata)` will display the conditional density plot of the binary outcome F on the continuous x variable.
+
+
+--- .class #id
+
+## Testing Logistic Regression Models
+
+- We usually determine the goodness of fit for logistic regression based on 
+    1. ***Calibration*** - A model is well *calibrated* if the observed and predicted probabilities based on the model are reasonably close. 
+    2. ***Discrimination*** - A model has good *discrimination* if the distribution of risk scores for cases and controls separate out. 
+    a. This means Cases tend to have higher scores. 
+    b. This means Controls tend to have lower scores.
+    c. There is little overlap.
+
+
+--- .class #id
+
+## Calibration: Hosmere-Lemeshew Test
+
+```
+
+library(ResourceSelection))
+# data$outcome is a binary outcome variable
+# your_model is the saved version of your logistic regression
+# g = 10 is the number of groups for hosmere lemeshew
+hoslem.test(data$outcome, fitted(your_model), g=10)
+```
+
+
+--- .class #id
+
+## Discrimination: C-Statistic
+
+
+
+- We then assess discrimination. 
+- To do this we use something called ***Concordance*** or ***C Statistic***
+- To understand what this is consider 2 different subjects
+    1. Subject 1 is dead
+    2. Subject 2 is not dead.
+- If we consider our model from above it predicts:
+    1. $\hat{p}_1$ the proability that subject 1 is dead.
+    2. $\hat{p}_2$ the proability that subject 2 is dead.
+
+
+--- .class #id
+
+## Discrimination: C-Statistic
+
+
+- The ***C Statistic*** is given by
+$$\Pr\left(\hat{p}_1 > \hat{p}_2\right)$$
+    * If the risk prediction is worthless we find that $C=0.5$ or essentially the same as flipping a coin. 
+    * If the risk is larger for all who are dead than all who are not dead than we have $C=1$. 
+- We typically find this value with a Receiver Operating Characteristic (ROC) curve.
+
+
+--- .class #id
+
+## Discrimination: ROC Curve
+
+
+- Pre-Work for Graph
+
+```
+
+library(ggplot2)
+library(ROCR)
+
+
+# Replace model with your model
+# replace data$outcome with your data and outcome
+# run this as is 
+
+prob <- predict(model)
+pred <- prediction(prob, data$outcome)
+perf <- performance(pred, "tpr", "fpr")
+# I know, the following code is bizarre. Just go with it.
+auc <- performance(pred, measure = "auc")
+auc <- auc@y.values[[1]]
+```
+
+
+--- .class #id
+
+## Discrimination: ROC Curve
+
+- Graph
+
+
+```
+roc.data <- data.frame(fpr=unlist(perf@x.values),
+                       tpr=unlist(perf@y.values),
+                       model="GLM")
+ggplot(roc.data, aes(x=fpr, ymin=0, ymax=tpr)) +
+    geom_ribbon(alpha=0.2) + geom_abline(intercept = 0, slope = 1, colour = "gray")+
+    geom_line(aes(y=tpr)) +
+    ggtitle(paste0("ROC Curve w/ AUC=", auc))
+```
+
+
+
+--- .class #id
+
+## Poisson Regression
+
+
+- Poisson regression is useful when predicting an outcome variable representing counts from a set of continuous predictor variables.
+
+
+
+--- .class #id
+
+##  Poisson Regression in R
+
+```
+# where count is a count and 
+# x1-x3 are continuous predictors 
+fit <- glm(count ~ x1+x2+x3, data=mydata, family=poisson(link="log"))
+summary(fit) display results
+```
+
+--- .class #id
+
+##  Poisson Regression with Overdispersion
+
+- If you have overdispersion you may want to use `quasipoisson()` instead of `poisson()`.
+

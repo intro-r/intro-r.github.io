@@ -1,0 +1,16 @@
+name: "intro-r"
+output_dir: "."
+navbar:
+  title: "Introduction to Statistics in R"
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "FAQ"
+      href: faq.html
+    - text: "Schedule"
+      href: schedule.html
+output:
+  html_document:
+    theme: journal
+    highlight: textmate
+    css: css/style.css

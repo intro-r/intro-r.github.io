@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Intro to R Programming for Biostatistics</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Intro to R Programming for Biostatistics">
+  <meta name="author" content="Adam J Sullivan">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/interactive/css/aceeditor.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="./assets/css/style.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+      <slide class="nobackground">
+    <article class="flexbox vcenter">
+      <span>
+        <img width='300px' src="assets/img/shield_image_large.png">
+      </span>
+    </article>
+  </slide>
+    <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="assets/img/shield_image.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Intro to R Programming for Biostatistics</h1>
+    <h2>Day 3 - Regression in R</h2>
+    <p>Adam J Sullivan<br/>by-nc-nd</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="segue" id="slide-1" style="background:grey;">
+  <hgroup>
+    <h1>Regression Models in R</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-2" style="background:grey;">
+  <hgroup>
+    <h1>Linear Regression in R</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Linear Regression in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can use R to easily fit linear regressions for us. </li>
+<li>This section will explore the basic commands for linear regression as well as how to test assumptions. </li>
+<li>We will not teach linear regression, but only seek to display how R does it. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>lm()</code> Function in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>To fit Linear Regression models in R we use the <code>lm()</code> function. </li>
+</ul>
+
+<pre><code>lm(formula, data, subset, weights, na.action,
+   method = &quot;qr&quot;, model = TRUE, x = FALSE, y = FALSE, qr = TRUE,
+   singular.ok = TRUE, contrasts = NULL, offset, ...)
+</code></pre>
+
+<ul>
+<li><code>formula</code> is the regressino equation written as <code>y~x1 + x2+ ...</code></li>
+<li><code>data</code> is the dataframe of interest.</li>
+<li><code>subset</code> specific subset of data. </li>
+<li><code>weights</code> for weighted data. </li>
+<li class='..</li>'></ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Worldwide data source. </li>
+<li>Contains 6 variables</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>country</td>
+<td>Country Name</td>
+</tr>
+<tr>
+<td>continent</td>
+<td>Continent Name</td>
+</tr>
+<tr>
+<td>year</td>
+<td>Year Data Accounts For</td>
+</tr>
+<tr>
+<td>lifeExp</td>
+<td>Life Expectancy at Birth</td>
+</tr>
+<tr>
+<td>pop</td>
+<td>Total Population</td>
+</tr>
+<tr>
+<td>gdpPercap</td>
+<td>per-Capita GDP</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>Per-capita GDP (Gross domestic product) is given in units of international dollars, &quot;a hypothetical unit of currency that has the same purchasing power parity that the U.S. dollar had in the United States at a given point in time&quot; -- 2005, in this case.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(gapminder)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## # A tibble: 1,704 x 6
+##        country continent  year lifeExp      pop gdpPercap
+##         &lt;fctr&gt;    &lt;fctr&gt; &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan      Asia  1952  28.801  8425333  779.4453
+##  2 Afghanistan      Asia  1957  30.332  9240934  820.8530
+##  3 Afghanistan      Asia  1962  31.997 10267083  853.1007
+##  4 Afghanistan      Asia  1967  34.020 11537966  836.1971
+##  5 Afghanistan      Asia  1972  36.088 13079460  739.9811
+##  6 Afghanistan      Asia  1977  38.438 14880372  786.1134
+##  7 Afghanistan      Asia  1982  39.854 12881816  978.0114
+##  8 Afghanistan      Asia  1987  40.822 13867957  852.3959
+##  9 Afghanistan      Asia  1992  41.674 16317921  649.3414
+## 10 Afghanistan      Asia  1997  41.763 22227415  635.3414
+## # ... with 1,694 more rows
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">kenya &lt;- gapminder %&gt;% filter(country==&quot;Kenya&quot;)
+kenya_model &lt;- lm(lifeExp ~ year, data=kenya)
+kenya_model
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = lifeExp ~ year, data = kenya)
+## 
+## Coefficients:
+## (Intercept)         year  
+##   -356.1010       0.2065
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Basic Model Statement does not include much information</li>
+<li>If we look further we can see what type of object is returned:</li>
+</ul>
+
+<pre><code class="r">str(kenya_model)
+</code></pre>
+
+<pre><code>## List of 12
+##  $ coefficients : Named num [1:2] -356.101 0.207
+##   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;(Intercept)&quot; &quot;year&quot;
+##  $ residuals    : Named num [1:12] -4.732 -3.349 -1.118 0.554 2.427 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:12] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##  $ effects      : Named num [1:12] -182.492 12.347 0.283 1.805 3.527 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:12] &quot;(Intercept)&quot; &quot;year&quot; &quot;&quot; &quot;&quot; ...
+##  $ rank         : int 2
+##  $ fitted.values: Named num [1:12] 47 48 49.1 50.1 51.1 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:12] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##  $ assign       : int [1:2] 0 1
+##  $ qr           :List of 5
+##   ..$ qr   : num [1:12, 1:2] -3.464 0.289 0.289 0.289 0.289 ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:12] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##   .. .. ..$ : chr [1:2] &quot;(Intercept)&quot; &quot;year&quot;
+##   .. ..- attr(*, &quot;assign&quot;)= int [1:2] 0 1
+##   ..$ qraux: num [1:2] 1.29 1.27
+##   ..$ pivot: int [1:2] 1 2
+##   ..$ tol  : num 1e-07
+##   ..$ rank : int 2
+##   ..- attr(*, &quot;class&quot;)= chr &quot;qr&quot;
+##  $ df.residual  : int 10
+##  $ xlevels      : Named list()
+##  $ call         : language lm(formula = lifeExp ~ year, data = kenya)
+##  $ terms        :Classes &#39;terms&#39;, &#39;formula&#39;  language lifeExp ~ year
+##   .. ..- attr(*, &quot;variables&quot;)= language list(lifeExp, year)
+##   .. ..- attr(*, &quot;factors&quot;)= int [1:2, 1] 0 1
+##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. ..$ : chr [1:2] &quot;lifeExp&quot; &quot;year&quot;
+##   .. .. .. ..$ : chr &quot;year&quot;
+##   .. ..- attr(*, &quot;term.labels&quot;)= chr &quot;year&quot;
+##   .. ..- attr(*, &quot;order&quot;)= int 1
+##   .. ..- attr(*, &quot;intercept&quot;)= int 1
+##   .. ..- attr(*, &quot;response&quot;)= int 1
+##   .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+##   .. ..- attr(*, &quot;predvars&quot;)= language list(lifeExp, year)
+##   .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:2] &quot;numeric&quot; &quot;numeric&quot;
+##   .. .. ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;lifeExp&quot; &quot;year&quot;
+##  $ model        :&#39;data.frame&#39;:   12 obs. of  2 variables:
+##   ..$ lifeExp: num [1:12] 42.3 44.7 47.9 50.7 53.6 ...
+##   ..$ year   : int [1:12] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+##   ..- attr(*, &quot;terms&quot;)=Classes &#39;terms&#39;, &#39;formula&#39;  language lifeExp ~ year
+##   .. .. ..- attr(*, &quot;variables&quot;)= language list(lifeExp, year)
+##   .. .. ..- attr(*, &quot;factors&quot;)= int [1:2, 1] 0 1
+##   .. .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. .. ..$ : chr [1:2] &quot;lifeExp&quot; &quot;year&quot;
+##   .. .. .. .. ..$ : chr &quot;year&quot;
+##   .. .. ..- attr(*, &quot;term.labels&quot;)= chr &quot;year&quot;
+##   .. .. ..- attr(*, &quot;order&quot;)= int 1
+##   .. .. ..- attr(*, &quot;intercept&quot;)= int 1
+##   .. .. ..- attr(*, &quot;response&quot;)= int 1
+##   .. .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+##   .. .. ..- attr(*, &quot;predvars&quot;)= language list(lifeExp, year)
+##   .. .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:2] &quot;numeric&quot; &quot;numeric&quot;
+##   .. .. .. ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;lifeExp&quot; &quot;year&quot;
+##  - attr(*, &quot;class&quot;)= chr &quot;lm&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We see that this is a list</li>
+<li>We can find out what is contained in a list by using the <code>names()</code> function.</li>
+</ul>
+
+<pre><code class="r">names(kenya_model)
+</code></pre>
+
+<pre><code>##  [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;         
+##  [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;  
+##  [9] &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;         &quot;model&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We see different values that are listed here. </li>
+<li>Lets look at the coefficients</li>
+</ul>
+
+<pre><code class="r">kenya_model$coefficients
+</code></pre>
+
+<pre><code>##  (Intercept)         year 
+## -356.1009769    0.2065077
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can use other commands on a regression</li>
+<li>For example we can use the <code>summary()</code> function:</li>
+</ul>
+
+<pre><code class="r">summary(kenya_model)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## 
+## Call:
+## lm(formula = lifeExp ~ year, data = kenya)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.3354 -3.5739 -0.2819  3.9984  5.5687 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) -356.10098  145.08537  -2.454   0.0340 *
+## year           0.20651    0.07329   2.818   0.0182 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.382 on 10 degrees of freedom
+## Multiple R-squared:  0.4426, Adjusted R-squared:  0.3868 
+## F-statistic: 7.939 on 1 and 10 DF,  p-value: 0.01823
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Gapminder Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">kenya_summary &lt;- summary(kenya_model)
+names(kenya_summary)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Other Regression Functions</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Other useful functions are listed below:
+
+<ul>
+<li>coefficients(kenya_model) # model coefficients</li>
+<li>confint(kenya_model, level=0.95) # CIs for model parameters </li>
+<li>fitted(kenya_model) # predicted values</li>
+<li>residuals(kenya_model) # residuals</li>
+<li>anova(kenya_model) # anova table </li>
+<li>vcov(kenya_model) # covariance matrix for model parameters </li>
+<li>influence(kenya_model) # regression diagnostics</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Diagnostic Model Plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">par(mfrow=c(2,2)) # optional 4 graphs/page 
+plot(kenya_model)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Diagnostic Model Plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Comparing Models</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can compare nested models using the <code>anova()</code> function. </li>
+</ul>
+
+<pre><code class="r">kenya_model2 &lt;- lm(lifeExp ~ year + pop, data=kenya)
+anova(kenya_model, kenya_model2)
+</code></pre>
+
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: lifeExp ~ year
+## Model 2: lifeExp ~ year + pop
+##   Res.Df     RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     10 192.035                                
+## 2      9  60.125  1    131.91 19.745 0.001615 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>broom</code> Package: Easier to View Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>There is a package called <code>broom</code> which makes results of regressions easier to view and compare. </li>
+<li>We will call this package and use the <code>tidy()</code> and <code>glance()</code> functions.</li>
+</ul>
+
+<pre><code class="r">library(broom)
+tidy(kenya_model)
+glance(kenya_model)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>broom</code> Package: Easier to View Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>##          term     estimate    std.error statistic    p.value
+## 1 (Intercept) -356.1009769 145.08537018 -2.454424 0.03399941
+## 2        year    0.2065077   0.07329116  2.817634 0.01823454
+</code></pre>
+
+<pre><code>##   r.squared adj.r.squared    sigma statistic    p.value df    logLik
+## 1 0.4425573      0.386813 4.382174  7.939063 0.01823454  2 -33.66387
+##        AIC      BIC deviance df.residual
+## 1 73.32775 74.78247 192.0345          10
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>broom</code> Package: Easier to View Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can also compare multiple models at the same time</li>
+<li>Using the commands we learned in data cleaning: </li>
+</ul>
+
+<pre><code class="r">tidy1 &lt;- tidy(kenya_model)
+tidy2 &lt;- tidy(kenya_model2)
+bind_rows(tidy1, tidy2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>broom</code> Package: Easier to View Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can also compare multiple models at the same time</li>
+<li>Using the commands we learned in data cleaning: </li>
+</ul>
+
+<pre><code>##          term      estimate    std.error statistic      p.value
+## 1 (Intercept) -3.561010e+02 1.450854e+02 -2.454424 0.0339994120
+## 2        year  2.065077e-01 7.329116e-02  2.817634 0.0182345440
+## 3 (Intercept) -2.386902e+03 4.649642e+02 -5.133518 0.0006166503
+## 4        year  1.250069e+00 2.387936e-01  5.234934 0.0005383790
+## 5         pop -1.918461e-06 4.317401e-07 -4.443555 0.0016151708
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>broom</code> Package: Easier to View Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Again for <code>glance()</code></li>
+</ul>
+
+<pre><code class="r">glance1 &lt;- glance(kenya_model)
+glance2 &lt;- glance(kenya_model2)
+bind_rows(glance1, glance2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>broom</code> Package: Easier to View Results</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>##   r.squared adj.r.squared    sigma statistic      p.value df    logLik
+## 1 0.4425573     0.3868130 4.382174  7.939063 0.0182345440  2 -33.66387
+## 2 0.8254669     0.7866818 2.584682 21.283081 0.0003876588  3 -26.69640
+##        AIC      BIC  deviance df.residual
+## 1 73.32775 74.78247 192.03450          10
+## 2 61.39280 63.33243  60.12522           9
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Variable Selection: Stepwise Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(MASS)
+fit &lt;- lm(lifeExp~year +pop + gdpPercap,data=mydata)
+step &lt;- stepAIC(fit, direction=&quot;both&quot;)
+step$anova # display results
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can see more regression diagnostics using the <code>car</code> package</li>
+<li>With this package we have the following functions</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Outliers</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(car)
+outlierTest(kenya_model2) # Bonferonni p-value for most extreme obs
+qqPlot(kenya_model2, main=&quot;QQ Plot&quot;) #qq plot for studentized resid 
+leveragePlots(kenya_model2) # leverage plots
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Outliers</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">outlierTest(kenya_model2) # Bonferonni p-value for most extreme obs
+</code></pre>
+
+<pre><code>## 
+## No Studentized residuals with Bonferonni p &lt; 0.05
+## Largest |rstudent|:
+##     rstudent unadjusted p-value Bonferonni p
+## 11 -2.582753           0.032477      0.38972
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Outliers</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">qqPlot(kenya_model2, main=&quot;QQ Plot&quot;) #qq plot for studentized resid 
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-23-1.png" alt="plot of chunk unnamed-chunk-23"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Outliers</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">leveragePlots(kenya_model2) # leverage plots
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-24-1.png" alt="plot of chunk unnamed-chunk-24"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Influential Observations</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># Influential Observations
+# added variable plots 
+av.plots(kenya_model2)
+# Cook&#39;s D plot
+# identify D values &gt; 4/(n-k-1) 
+cutoff &lt;- 4/((nrow(kenya)-length(kenya_model2$coefficients)-2)) 
+plot(kenya_model2, which=4, cook.levels=cutoff)
+# Influence Plot 
+influencePlot(kenya_model2, id.method=&quot;identify&quot;, main=&quot;Influence Plot&quot;, sub=&quot;Circle size is proportial to Cook&#39;s Distance&quot; )
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Influential Observations</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-26-1.png" alt="plot of chunk unnamed-chunk-26"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Influential Observations</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-27-1.png" alt="plot of chunk unnamed-chunk-27"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Influential Observations</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-28-1.png" alt="plot of chunk unnamed-chunk-28"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Normality</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># Normality of Residuals
+# qq plot for studentized resid
+qqPlot(kenya_model2, main=&quot;QQ Plot&quot;)
+# distribution of studentized residuals
+library(MASS)
+sresid &lt;- studres(kenya_model2) 
+hist(sresid, freq=FALSE, 
+   main=&quot;Distribution of Studentized Residuals&quot;)
+xfit&lt;-seq(min(sresid),max(sresid),length=40) 
+yfit&lt;-dnorm(xfit) 
+lines(xfit, yfit)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Normality</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-30-1.png" alt="plot of chunk unnamed-chunk-30"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Normality</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="figure/unnamed-chunk-31-1.png" alt="plot of chunk unnamed-chunk-31"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Error Variance</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># Evaluate homoscedasticity
+# non-constant error variance test
+ncvTest(kenya_model2)
+# plot studentized residuals vs. fitted values 
+spreadLevelPlot(kenya_model2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Error Variance</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## Non-constant Variance Score Test 
+## Variance formula: ~ fitted.values 
+## Chisquare = 1.111634    Df = 1     p = 0.2917271
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Multi-collinearity</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># Evaluate Collinearity
+vif(kenya_model2) # variance inflation factors 
+</code></pre>
+
+<pre><code>##     year      pop 
+## 30.51456 30.51456
+</code></pre>
+
+<pre><code class="r">sqrt(vif(kenya_model2)) &gt; 2 # problem?
+</code></pre>
+
+<pre><code>## year  pop 
+## TRUE TRUE
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Linearity</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># Evaluate Nonlinearity
+# component + residual plot 
+crPlots(kenya_model2)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Linearity</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## Error in formula(model): object &#39;fit&#39; not found
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Autocorrelation</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># Test for Autocorrelated Errors
+durbinWatsonTest(kenya_model2)
+</code></pre>
+
+<pre><code>##  lag Autocorrelation D-W Statistic p-value
+##    1       0.3478423      1.266646   0.028
+##  Alternative hypothesis: rho != 0
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Multiple Tests</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can use one more package to help us with regression diagnostics</li>
+<li>This is the <code>gvlma</code> package.</li>
+</ul>
+
+<pre><code class="r">library(gvlma)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Multiple Tests</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">gvlma(kenya_model)
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = lifeExp ~ year, data = kenya)
+## 
+## Coefficients:
+## (Intercept)         year  
+##   -356.1010       0.2065  
+## 
+## 
+## ASSESSMENT OF THE LINEAR MODEL ASSUMPTIONS
+## USING THE GLOBAL TEST ON 4 DEGREES-OF-FREEDOM:
+## Level of Significance =  0.05 
+## 
+## Call:
+##  gvlma(x = kenya_model) 
+## 
+##                        Value  p-value                   Decision
+## Global Stat        11.318796 0.023205 Assumptions NOT satisfied!
+## Skewness            0.003812 0.950772    Assumptions acceptable.
+## Kurtosis            1.047202 0.306152    Assumptions acceptable.
+## Link Function       9.764485 0.001779 Assumptions NOT satisfied!
+## Heteroscedasticity  0.503297 0.478055    Assumptions acceptable.
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>More Detailed Regression Diagnostics: Multiple Tests</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">gvlma(kenya_model2)
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = lifeExp ~ year + pop, data = kenya)
+## 
+## Coefficients:
+## (Intercept)         year          pop  
+##  -2.387e+03    1.250e+00   -1.918e-06  
+## 
+## 
+## ASSESSMENT OF THE LINEAR MODEL ASSUMPTIONS
+## USING THE GLOBAL TEST ON 4 DEGREES-OF-FREEDOM:
+## Level of Significance =  0.05 
+## 
+## Call:
+##  gvlma(x = kenya_model2) 
+## 
+##                        Value p-value                Decision
+## Global Stat        3.827e+00  0.4300 Assumptions acceptable.
+## Skewness           3.116e-05  0.9955 Assumptions acceptable.
+## Kurtosis           4.884e-02  0.8251 Assumptions acceptable.
+## Link Function      1.643e+00  0.1999 Assumptions acceptable.
+## Heteroscedasticity 2.134e+00  0.1440 Assumptions acceptable.
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="segue" id="slide-47" style="background:grey;">
+  <hgroup>
+    <h1>Generallized Linear Models in R</h1>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Generalized Linear Models in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Generalized linear models are fit using the <code>glm()</code> function. </li>
+<li>The form of the glm function is</li>
+</ul>
+
+<pre><code>glm(formula, family=familytype(link=linkfunction), data=)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Link Functions</h2>
+  </hgroup>
+  <article data-timings="">
+    <table><thead>
+<tr>
+<th>Family</th>
+<th>Default Link Function</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>binomial</td>
+<td>(link = &quot;logit&quot;)</td>
+</tr>
+<tr>
+<td>gaussian</td>
+<td>(link = &quot;identity&quot;)</td>
+</tr>
+<tr>
+<td>Gamma</td>
+<td>(link = &quot;inverse&quot;)</td>
+</tr>
+<tr>
+<td>inverse.gaussian</td>
+<td>(link = &quot;1/mu<sup>2&quot;)</sup></td>
+</tr>
+<tr>
+<td>poisson</td>
+<td>(link = &quot;log&quot;)</td>
+</tr>
+<tr>
+<td>quasi</td>
+<td>(link = &quot;identity&quot;, variance = &quot;constant&quot;)</td>
+</tr>
+<tr>
+<td>quasibinomial</td>
+<td>(link = &quot;logit&quot;)</td>
+</tr>
+<tr>
+<td>quasipoisson</td>
+<td>(link = &quot;log&quot;)</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Further GLM Help</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>See <code>help(glm)</code> for other modeling options. </li>
+<li>See <code>help(family)</code> for other allowable link functions for each family. </li>
+<li>Two subtypes of generalized linear models will be covered here: 
+
+<ul>
+<li>logistic regression</li>
+<li> poisson regression</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Logistic Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Logistic regression is useful when you are predicting a binary outcome from a set of continuous predictor variables. </li>
+<li>It is frequently preferred over discriminant function analysis because of its less restrictive assumptions.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Fitting Logistic Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>fit &lt;- glm(F~x1+x2+x3,data=mydata,family=binomial(link=&quot;logit&quot;))
+summary(fit) # display results
+confint(fit) # 95% CI for the coefficients
+exp(coef(fit)) # exponentiated coefficients
+exp(confint(fit)) # 95% CI for exponentiated coefficients
+predict(fit, type=&quot;response&quot;) # predicted values
+residuals(fit, type=&quot;deviance&quot;) # residuals
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Comparing Nested Logistic Models</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>You can use <code>anova(fit1,fit2, test=&quot;Chisq&quot;)</code> to compare nested models. </li>
+<li>Additionally, <code>cdplot(F~x, data=mydata)</code> will display the conditional density plot of the binary outcome F on the continuous x variable.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Testing Logistic Regression Models</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We usually determine the goodness of fit for logistic regression based on 
+
+<ol>
+<li><strong><em>Calibration</em></strong> - A model is well <em>calibrated</em> if the observed and predicted probabilities based on the model are reasonably close. </li>
+<li><strong><em>Discrimination</em></strong> - A model has good <em>discrimination</em> if the distribution of risk scores for cases and controls separate out. 
+a. This means Cases tend to have higher scores. 
+b. This means Controls tend to have lower scores.
+c. There is little overlap.</li>
+</ol></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Calibration: Hosmere-Lemeshew Test</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>
+library(ResourceSelection))
+# data$outcome is a binary outcome variable
+# your_model is the saved version of your logistic regression
+# g = 10 is the number of groups for hosmere lemeshew
+hoslem.test(data$outcome, fitted(your_model), g=10)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Discrimination: C-Statistic</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We then assess discrimination. </li>
+<li>To do this we use something called <strong><em>Concordance</em></strong> or <strong><em>C Statistic</em></strong></li>
+<li>To understand what this is consider 2 different subjects
+
+<ol>
+<li>Subject 1 is dead</li>
+<li>Subject 2 is not dead.</li>
+</ol></li>
+<li>If we consider our model from above it predicts:
+
+<ol>
+<li>\(\hat{p}_1\) the proability that subject 1 is dead.</li>
+<li>\(\hat{p}_2\) the proability that subject 2 is dead.</li>
+</ol></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Discrimination: C-Statistic</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The <strong><em>C Statistic</em></strong> is given by
+\[\Pr\left(\hat{p}_1 > \hat{p}_2\right)\]
+
+<ul>
+<li>If the risk prediction is worthless we find that \(C=0.5\) or essentially the same as flipping a coin. </li>
+<li>If the risk is larger for all who are dead than all who are not dead than we have \(C=1\). </li>
+</ul></li>
+<li>We typically find this value with a Receiver Operating Characteristic (ROC) curve.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Discrimination: ROC Curve</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Pre-Work for Graph</li>
+</ul>
+
+<pre><code>
+library(ggplot2)
+library(ROCR)
+
+
+# Replace model with your model
+# replace data$outcome with your data and outcome
+# run this as is 
+
+prob &lt;- predict(model)
+pred &lt;- prediction(prob, data$outcome)
+perf &lt;- performance(pred, &quot;tpr&quot;, &quot;fpr&quot;)
+# I know, the following code is bizarre. Just go with it.
+auc &lt;- performance(pred, measure = &quot;auc&quot;)
+auc &lt;- auc@y.values[[1]]
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Discrimination: ROC Curve</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Graph</li>
+</ul>
+
+<pre><code>roc.data &lt;- data.frame(fpr=unlist(perf@x.values),
+                       tpr=unlist(perf@y.values),
+                       model=&quot;GLM&quot;)
+ggplot(roc.data, aes(x=fpr, ymin=0, ymax=tpr)) +
+    geom_ribbon(alpha=0.2) + geom_abline(intercept = 0, slope = 1, colour = &quot;gray&quot;)+
+    geom_line(aes(y=tpr)) +
+    ggtitle(paste0(&quot;ROC Curve w/ AUC=&quot;, auc))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Poisson Regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Poisson regression is useful when predicting an outcome variable representing counts from a set of continuous predictor variables.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Poisson Regression in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code># where count is a count and 
+# x1-x3 are continuous predictors 
+fit &lt;- glm(count ~ x1+x2+x3, data=mydata, family=poisson(link=&quot;log&quot;))
+summary(fit) display results
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Poisson Regression with Overdispersion</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>If you have overdispersion you may want to use <code>quasipoisson()</code> instead of <code>poisson()</code>.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Regression Models in R'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Linear Regression in R'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Linear Regression in R'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='<code>lm()</code> Function in R'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Gapminder Data'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Gapminder Data'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Gapminder Data'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Gapminder Regression'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Gapminder Regression'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Gapminder Regression'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Gapminder Regression'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Gapminder Regression'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Gapminder Regression'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Gapminder Regression'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Other Regression Functions'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Diagnostic Model Plots'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Diagnostic Model Plots'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Comparing Models'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='<code>broom</code> Package: Easier to View Results'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='<code>broom</code> Package: Easier to View Results'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='<code>broom</code> Package: Easier to View Results'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='<code>broom</code> Package: Easier to View Results'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='<code>broom</code> Package: Easier to View Results'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='<code>broom</code> Package: Easier to View Results'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Variable Selection: Stepwise Regression'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='More Detailed Regression Diagnostics'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='More Detailed Regression Diagnostics: Outliers'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='More Detailed Regression Diagnostics: Outliers'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='More Detailed Regression Diagnostics: Outliers'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='More Detailed Regression Diagnostics: Outliers'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='More Detailed Regression Diagnostics: Influential Observations'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='More Detailed Regression Diagnostics: Influential Observations'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='More Detailed Regression Diagnostics: Influential Observations'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='More Detailed Regression Diagnostics: Influential Observations'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='More Detailed Regression Diagnostics: Normality'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='More Detailed Regression Diagnostics: Normality'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='More Detailed Regression Diagnostics: Normality'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='More Detailed Regression Diagnostics: Error Variance'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='More Detailed Regression Diagnostics: Error Variance'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='More Detailed Regression Diagnostics: Multi-collinearity'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='More Detailed Regression Diagnostics: Linearity'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='More Detailed Regression Diagnostics: Linearity'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='More Detailed Regression Diagnostics: Autocorrelation'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='More Detailed Regression Diagnostics: Multiple Tests'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='More Detailed Regression Diagnostics: Multiple Tests'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='More Detailed Regression Diagnostics: Multiple Tests'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Generallized Linear Models in R'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='Generalized Linear Models in R'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='Link Functions'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='Further GLM Help'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='Logistic Regression'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='Fitting Logistic Regression'>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title='Comparing Nested Logistic Models'>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='Testing Logistic Regression Models'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='Calibration: Hosmere-Lemeshew Test'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='Discrimination: C-Statistic'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='Discrimination: C-Statistic'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='Discrimination: ROC Curve'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='Discrimination: ROC Curve'>
+         59
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=60 title='Poisson Regression'>
+         60
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=61 title='Poisson Regression in R'>
+         61
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=62 title='Poisson Regression with Overdispersion'>
+         62
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/interactive/js/ace/js/ace.js"></script>
+<script src="libraries/widgets/interactive/js/opencpu-0.5.js"></script>
+<script src="libraries/widgets/interactive/js/interactive.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

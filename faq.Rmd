@@ -1,0 +1,44 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+
+## What are the Required Textbooks or Reading Materials?
+
+The majority of material for this course will be distributed as electronic handouts.
+
+- Course Manual
+    - Biomedical Informatics and Data Science Skills (BIDSS) Manual:
+- Additional readings or resources will be distributed as needed.
+
+## What kind of Computing is Required?
+
+- Students will be required to access a computer that can connect to the Internet (a laptop that can be brought to lectures and connect to the Brown WiFi network is ideal). 
+
+
+## What is the Grading and Attendance Criteriate
+
+The graded elements of the course and their contribution to the final grade are:
+
+| Category | Percentage of Grade | 
+| -------- | ------------------- | 
+| Assignments	|		50% | 
+| Final Project | 			50% | 
+
+The course will be considered “passed” for a final grade of 85% or higher.
+
+### Specific criteria details:
+
+- Attendance is mandatory and is subject to be taken at a random moment during each lecture; Unexcused absences will result in up to a 10% deduction in overall course grade. 
+- Assignments will be available at the end of each lecture. Completed assignments must be submitted according to provided instructions. Late submissions will not be accepted without prior permission. 
+- A final project will be due at the end of the course that is designed to bring together applicable concepts to help solve a practical biomedical informatics problem. For PhD students, it is expected that this project will be directly related to their ongoing research.  
+
+
+## Classroom Environment Expectations
+
+All lectures will be done in traditional format along with hands-on exercises. Students are expected to contribute to discussions and actively participate in exercises during class (see grading criteria/attendance policy above).
+
